@@ -1,0 +1,17 @@
+def dp(step, costs, shapes, N):
+    return step + 1, [min([costs[i][j]+costs[step-i-1][i+j+1]+shapes[j][0]*shapes[j+step][1]*shapes[j+i][1] for i in range(step) for i in range(step)]) for j in range(N-step)]
+
+def solve(N, shapes):
+    costs = [[0] * N, [shapes[i][0] * shapes[i][1] * shapes[i+1][1] for i in range(N-1)]]
+    step = 2
+    while step < N:
+        step, new_costs = dp(step, costs, shapes, N)
+        costs.append(new_costs)
+    print(costs[-1][0])
+    return
+
+if __name__ == "__main__":
+    N = int(input())
+    # [(r, c)]
+    shapes = [[int(x) for x in input().split()] for _ in range(N)]
+    solve(N, shapes)
